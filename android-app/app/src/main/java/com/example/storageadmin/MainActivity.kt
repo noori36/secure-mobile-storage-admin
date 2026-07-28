@@ -34,6 +34,9 @@ import androidx.compose.ui.unit.dp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.content.Context
+import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
 
@@ -82,6 +85,8 @@ fun LoginScreen(
     var message by remember {
         mutableStateOf("")
     }
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -159,10 +164,31 @@ fun LoginScreen(
 
                                 if (response.isSuccessful) {
 
+                                    val token = response.body()?.access_token
+
+                                    if (token != null) {
+
+                                        // Intentionally insecure storage
+                                        val sharedPreferences =
+                                            context.getSharedPreferences(
+                                                "admin_preferences",
+                                                Context.MODE_PRIVATE
+                                            )
+
+                                        sharedPreferences
+                                            .edit()
+                                            .putString("access_token", token)
+                                            .apply()
+
+                                        // Intentionally insecure logging
+                                        Log.d(
+                                            "StorageAdmin",
+                                            "Access token: $token"
+                                        )
+                                    }
+
                                     message = "Login successful"
-
                                     onLoginSuccess()
-
                                 } else {
 
                                     message =
