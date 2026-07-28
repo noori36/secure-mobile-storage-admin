@@ -37,6 +37,8 @@ import retrofit2.Response
 import android.content.Context
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
+import android.os.Handler
+import android.os.Looper
 
 class MainActivity : ComponentActivity() {
 
@@ -235,7 +237,10 @@ fun DashboardScreen() {
         mutableStateOf("")
     }
 
-    LaunchedEffect(Unit) {
+    fun loadNodes() {
+
+        isLoading = true
+        errorMessage = ""
 
         RetrofitClient.api
             .getNodes()
@@ -277,6 +282,10 @@ fun DashboardScreen() {
             )
     }
 
+    LaunchedEffect(Unit) {
+        loadNodes()
+    }
+
     val onlineCount = nodes.count {
         it.status.equals(
             "online",
@@ -289,6 +298,12 @@ fun DashboardScreen() {
             "degraded",
             ignoreCase = true
         )
+    }
+
+    val disabledCount = nodes.count {
+        it.status.equals(
+            "disabled",
+            ignoreCase = true)
     }
 
     Column(
@@ -329,6 +344,10 @@ fun DashboardScreen() {
                 text = "Degraded: $degradedCount"
             )
 
+            Text(
+                text = "Disabled: $disabledCount"
+            )
+
             Spacer(
                 modifier = Modifier.height(24.dp)
             )
@@ -340,7 +359,41 @@ fun DashboardScreen() {
 
                 items(nodes) { node ->
 
-                    NodeCard(node)
+                    NodeCard(
+                        node = node,
+                        onDisableClick = {
+
+                            disableNode(
+                                nodeId = node.id,
+                                onSuccess = {
+                                    loadNodes()
+                                },
+                                onError = { error ->
+                                    errorMessage = error
+                                }
+                            )
+                        },
+                        onEnableClick = {
+
+                            enableNode(
+                                nodeId = node.id,
+                                onSuccess = {
+
+                                    Handler(
+                                        Looper.getMainLooper()
+                                    ).postDelayed(
+                                        {
+                                            loadNodes()
+                                        },
+                                        3000
+                                    )
+                                },
+                                onError = { error ->
+                                    errorMessage = error
+                                }
+                            )
+                        }
+                    )
                 }
             }
         }
@@ -349,47 +402,178 @@ fun DashboardScreen() {
 
 @Composable
 fun NodeCard(
-    node: StorageNode
+    node: StorageNode,
+    onDisableClick: () -> Unit,
+    onEnableClick: () -> Unit
 ) {
 
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement =
-                Arrangement.SpaceBetween,
-            verticalAlignment =
-                Alignment.CenterVertically
+                .padding(16.dp)
         ) {
 
-            Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement =
+                    Arrangement.SpaceBetween,
+                verticalAlignment =
+                    Alignment.CenterVertically
+            ) {
+
+                Column {
+
+                    Text(
+                        text = node.id,
+                        style =
+                            MaterialTheme.typography.titleMedium
+                    )
+
+                    Text(
+                        text =
+                            "Disk usage: ${node.disk_usage}%"
+                    )
+
+                    Text(
+                        text =
+                            "Latency: ${node.latency} ms"
+                    )
+                }
 
                 Text(
-                    text = node.id,
-                    style =
-                        MaterialTheme.typography.titleMedium
-                )
-
-                Text(
-                    text =
-                        "Disk usage: ${node.disk_usage}%"
-                )
-
-                Text(
-                    text =
-                        "Latency: ${node.latency} ms"
+                    text = node.status.replaceFirstChar {
+                        it.uppercase()
+                    }
                 )
             }
 
-            Text(
-                text = node.status.replaceFirstChar {
-                    it.uppercase()
-                }
+            Spacer(
+                modifier = Modifier.height(12.dp)
             )
+
+            if (
+                node.status.equals(
+                    "disabled",
+                    ignoreCase = true
+                )
+            ) {
+
+                Button(
+                    onClick = onEnableClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Enable Node")
+                }
+
+            } else {
+
+                Button(
+                    onClick = onDisableClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Disable Node")
+                }
+            }
         }
     }
+}
+
+private fun disableNode(
+    nodeId: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+) {
+
+    RetrofitClient.api
+        .disableNode(nodeId)
+        .enqueue(
+            object : Callback<Map<String, Any>> {
+
+                override fun onResponse(
+                    call: Call<Map<String, Any>>,
+                    response: Response<Map<String, Any>>
+                ) {
+
+                    if (response.isSuccessful) {
+
+                        onSuccess()
+
+                    } else {
+
+                        onError(
+                            "Could not disable $nodeId. " +
+                                    "Error: ${response.code()}"
+                        )
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<Map<String, Any>>,
+                    t: Throwable
+                ) {
+
+                    onError(
+                        "Disable request failed: ${t.message}"
+                    )
+
+                    Log.e(
+                        "StorageAdmin",
+                        "Could not disable $nodeId",
+                        t
+                    )
+                }
+            }
+        )
+}
+
+private fun enableNode(
+    nodeId: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+) {
+
+    RetrofitClient.api
+        .enableNode(nodeId)
+        .enqueue(
+            object : Callback<Map<String, Any>> {
+
+                override fun onResponse(
+                    call: Call<Map<String, Any>>,
+                    response: Response<Map<String, Any>>
+                ) {
+
+                    if (response.isSuccessful) {
+
+                        onSuccess()
+
+                    } else {
+
+                        onError(
+                            "Could not enable $nodeId. " +
+                                    "Error: ${response.code()}"
+                        )
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<Map<String, Any>>,
+                    t: Throwable
+                ) {
+
+                    onError(
+                        "Enable request failed: ${t.message}"
+                    )
+
+                    Log.e(
+                        "StorageAdmin",
+                        "Could not enable $nodeId",
+                        t
+                    )
+                }
+            }
+        )
 }
