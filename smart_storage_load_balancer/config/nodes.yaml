@@ -1,0 +1,43 @@
+# Replication settings define how many copies of each object are stored
+# and how many successful responses are required for read/write operations.
+replication:
+  factor: 3
+  write_quorum: 2
+  read_quorum: 1
+
+# Consistent hashing distributes objects evenly across nodes
+# and reduces data movement when nodes are added or removed.  
+consistent_hash:
+  virtual_nodes: 100    # Number of virtual hash positions per physical node
+
+# Health-check settings used to detect slow, degraded, or failed nodes.
+health:
+  check_interval_seconds: 2
+  timeout_seconds: 1.5
+  degraded_latency_ms: 150
+  unhealthy_latency_ms: 500
+  degraded_disk_usage_percent: 85
+  unhealthy_disk_usage_percent: 95
+
+# Storage node definitions used by the load balancer.  
+nodes:
+  - id: node-a
+    url: http://127.0.0.1:8001
+    capacity_mb: 10000
+    can_accept_reads: true
+    can_accept_writes: true
+  - id: node-b
+    url: http://127.0.0.1:8002
+    capacity_mb: 10000
+    can_accept_reads: true
+    can_accept_writes: true
+  - id: node-c
+    url: http://127.0.0.1:8003
+    capacity_mb: 10000
+    can_accept_reads: true
+    can_accept_writes: true
+  - id: node-d
+    url: http://127.0.0.1:8004
+    capacity_mb: 10000
+    can_accept_reads: true
+    can_accept_writes: true
