@@ -29,6 +29,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
 
@@ -115,15 +118,48 @@ fun LoginScreen() {
         Button(
             onClick = {
 
-                // TEMPORARY TEST ONLY
-                if (
-                    username == "admin" &&
-                    password == "admin123"
-                ) {
-                    message = "Login successful"
-                } else {
-                    message = "Invalid username or password"
-                }
+                message = "Logging in..."
+
+                val request = LoginRequest(
+                    username = username,
+                    password = password
+                )
+
+                RetrofitClient.api
+                    .login(request)
+                    .enqueue(
+                        object : Callback<LoginResponse> {
+
+                            override fun onResponse(
+                                call: Call<LoginResponse>,
+                                response: Response<LoginResponse>
+                            ) {
+
+                                if (response.isSuccessful) {
+
+                                    val token =
+                                        response.body()?.access_token
+
+                                    message =
+                                        "Login successful\nToken: $token"
+
+                                } else {
+
+                                    message =
+                                        "Invalid username or password"
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<LoginResponse>,
+                                t: Throwable
+                            ) {
+
+                                message =
+                                    "Connection failed: ${t.message}"
+                            }
+                        }
+                    )
             },
             modifier = Modifier.fillMaxWidth()
         ) {
