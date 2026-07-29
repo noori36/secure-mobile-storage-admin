@@ -95,8 +95,6 @@ The load balancer:
 
 ---
 
----
-
 ## Repository Structure
 
 ```text
@@ -483,31 +481,31 @@ Access token: insecure-admin-token
 ### Login Screen
 
 <p align="left">
-  <img src="screenshots/01-login-screen.png" width="200">
+  <img src="screenshots/01-login-screen.png" width="400">
 </p>
 
 ### Failed Login
 
 <p align="left">
-  <img src="screenshots/02-failed-login.png" width="200">
+  <img src="screenshots/02-failed-login.png" width="400">
 </p>
 
 ### Dashboard
 
 <p align="left">
-  <img src="screenshots/03-dashboard.png" width="200">
+  <img src="screenshots/03-dashboard.png" width="400">
 </p>
 
 ### Disabled Node
 
 <p align="left">
-  <img src="screenshots/04-disabled-node.png" width="200">
+  <img src="screenshots/04-disabled-node.png" width="400">
 </p>
 
 ### Enabled Node
 
 <p align="left">
-  <img src="screenshots/05-enabled-node.png" width="200">
+  <img src="screenshots/05-enabled-node.png" width="400">
 </p>
 
 ### Logcat Token Exposure
