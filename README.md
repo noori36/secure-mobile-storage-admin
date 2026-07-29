@@ -95,9 +95,9 @@ The load balancer:
 
 ---
 
-## Repository Structure
+---
 
-The exact folder names may vary, but the project generally contains:
+## Repository Structure
 
 ```text
 project-root/
@@ -118,8 +118,6 @@ project-root/
 ├── reports/
 └── README.md
 ```
-
-Update this section if your repository uses different directory names.
 
 ---
 
@@ -482,76 +480,58 @@ Access token: insecure-admin-token
 
 ## Screenshots and Evidence
 
-The project report includes evidence for:
-
-- Login screen
-- Failed login
-- Successful dashboard login
-- Disabled node
-- Enabled node
-- Token exposure in Logcat
-- SharedPreferences token storage
-- Cleartext HTTP configuration
-- FastAPI login endpoint
-- FastAPI Swagger interface
-- MobSF findings
-
-Store screenshots in a dedicated directory such as:
-
-## Screenshots
-
 ### Login Screen
 
 <p align="left">
-  <img src="screenshots/01-login-screen.png" width="400">
+  <img src="screenshots/01-login-screen.png" width="200">
 </p>
 
 ### Failed Login
 
 <p align="left">
-  <img src="screenshots/02-failed-login.png" width="400">
+  <img src="screenshots/02-failed-login.png" width="200">
 </p>
 
 ### Dashboard
 
 <p align="left">
-  <img src="screenshots/03-dashboard.png" width="400">
+  <img src="screenshots/03-dashboard.png" width="200">
 </p>
 
 ### Disabled Node
 
 <p align="left">
-  <img src="screenshots/04-disabled-node.png" width="400">
+  <img src="screenshots/04-disabled-node.png" width="200">
 </p>
 
 ### Enabled Node
 
 <p align="left">
-  <img src="screenshots/05-enabled-node" width="400">
+  <img src="screenshots/05-enabled-node.png" width="200">
 </p>
 
 ### Logcat Token Exposure
 
 <p align="left">
-  <img src="screenshots/06-logcat-token.png" width="400">
+  <img src="screenshots/06-logcat-token.png" width="500">
 </p>
 
 ### Cleartext HTTP Configuration
 
 <p align="left">
-  <img src="screenshots/07-cleartext-http.png" width="400">
+  <img src="screenshots/07-cleartext-http.png" width="500">
 </p>
 
 ### FastAPI Login Endpoint
 
 <p align="left">
-  <img src="screenshots/08-fastapi-login.png" width="400">
+  <img src="screenshots/08-fastapi-login.png" width="500">
 </p>
 
 ### FastAPI Swagger Interface
 
 <p align="left">
-  <img src="screenshots/09-swagger-endpoints.png" width="400">
+  <img src="screenshots/09-swagger-endpoints.png" width="500">
 </p>
 
 ---
