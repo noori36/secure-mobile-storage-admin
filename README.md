@@ -502,56 +502,56 @@ Store screenshots in a dedicated directory such as:
 
 ### Login Screen
 
-<p align="center">
-  <img src="screenshots/01-login-screen.png" width="100">
+<p align="left">
+  <img src="screenshots/01-login-screen.png" width="400">
 </p>
 
 ### Failed Login
 
-<p align="center">
-  <img src="screenshots/02-failed-login.png" width="100">
+<p align="left">
+  <img src="screenshots/02-failed-login.png" width="400">
 </p>
 
 ### Dashboard
 
-<p align="center">
-  <img src="screenshots/03-dashboard.png" width="100">
+<p align="left">
+  <img src="screenshots/03-dashboard.png" width="400">
 </p>
 
 ### Disabled Node
 
-<p align="center">
-  <img src="screenshots/04-disabled-node.png" width="100">
+<p align="left">
+  <img src="screenshots/04-disabled-node.png" width="400">
 </p>
 
 ### Enabled Node
 
-<p align="center">
-  <img src="screenshots/05-enabled-node" width="100">
+<p align="left">
+  <img src="screenshots/05-enabled-node" width="400">
 </p>
 
 ### Logcat Token Exposure
 
-<p align="center">
-  <img src="screenshots/06-logcat-token.png" width="100">
+<p align="left">
+  <img src="screenshots/06-logcat-token.png" width="400">
 </p>
 
 ### Cleartext HTTP Configuration
 
-<p align="center">
-  <img src="screenshots/07-cleartext-http.png" width="100">
+<p align="left">
+  <img src="screenshots/07-cleartext-http.png" width="400">
 </p>
 
 ### FastAPI Login Endpoint
 
-<p align="center">
-  <img src="screenshots/08-fastapi-login.png" width="100">
+<p align="left">
+  <img src="screenshots/08-fastapi-login.png" width="400">
 </p>
 
 ### FastAPI Swagger Interface
 
-<p align="center">
-  <img src="screenshots/09-swagger-endpoints.png" width="100">
+<p align="left">
+  <img src="screenshots/09-swagger-endpoints.png" width="400">
 </p>
 
 ---
