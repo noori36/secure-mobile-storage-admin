@@ -35,7 +35,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.content.Context
-import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import android.os.Handler
 import android.os.Looper
@@ -181,12 +180,6 @@ fun LoginScreen(
                                             .edit()
                                             .putString("access_token", token)
                                             .apply()
-
-                                        // Intentionally insecure logging
-                                        Log.d(
-                                            "StorageAdmin",
-                                            "Access token: $token"
-                                        )
                                     }
 
                                     message = "Login successful"
