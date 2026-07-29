@@ -15,6 +15,13 @@ The project includes:
 
 ---
 
+## Project Versions
+
+- [`main`](https://github.com/noori36/secure-mobile-storage-admin) — intentionally insecure prototype
+- [`secure-version`](https://github.com/noori36/secure-mobile-storage-admin/tree/secure-version) — secured implementation
+
+---
+
 ## Project Overview
 
 The Secure Mobile Storage Admin application allows an administrator to:
@@ -545,12 +552,11 @@ The intentionally vulnerable version should only be used in a controlled lab env
 ## Author
 
 **Noreen Arshad**
-
-Course: Mobile Security  
+ 
 Project Type: Capstone Project
 
 ---
 
 ## License
 
-This project is intended for academic and educational use. Add an open-source license only if required by your course or repository policy.
+No License
