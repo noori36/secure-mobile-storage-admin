@@ -15,6 +15,13 @@ The project includes:
 
 ---
 
+## Project Versions
+
+- [`main`](https://github.com/noori36/secure-mobile-storage-admin) — intentionally insecure prototype
+- [`secure-version`](https://github.com/noori36/secure-mobile-storage-admin/tree/secure-version) — secured implementation
+
+---
+
 ## Project Overview
 
 The Secure Mobile Storage Admin application allows an administrator to:
@@ -97,8 +104,6 @@ The load balancer:
 
 ## Repository Structure
 
-The exact folder names may vary, but the project generally contains:
-
 ```text
 project-root/
 ├── android-app/
@@ -118,8 +123,6 @@ project-root/
 ├── reports/
 └── README.md
 ```
-
-Update this section if your repository uses different directory names.
 
 ---
 
@@ -284,128 +287,15 @@ curl -X POST "http://127.0.0.1:8000/nodes/node-a/enable"
 
 ---
 
-## Intentionally Included Security Weaknesses
-
-The Week 7 prototype intentionally includes vulnerabilities so they can be identified and corrected in a secure implementation.
-
-### 1. Cleartext HTTP Communication
-
-The Android application uses:
-
-```text
-http://10.0.2.2:8000/
-```
-
-The manifest permits cleartext traffic:
-
-```xml
-android:usesCleartextTraffic="true"
-```
-
-This can expose credentials, tokens, node status information, and administrative requests to interception or modification.
-
-### 2. Hardcoded Credentials
-
-The FastAPI backend compares login requests with fixed administrator credentials.
-
-```text
-admin
-admin123
-```
-
-### 3. Predictable Authentication Token
-
-The backend returns the same fixed token after each successful login:
-
-```text
-insecure-admin-token
-```
-
-The token does not expire and is not cryptographically signed.
-
-### 4. Insecure Token Storage
-
-The Android application stores the token in normal SharedPreferences:
-
-```kotlin
-sharedPreferences
-    .edit()
-    .putString("access_token", token)
-    .apply()
-```
-
-The token is not protected using Android Keystore-backed encryption.
-
-### 5. Sensitive Logging
-
-The application writes the token to Logcat:
-
-```kotlin
-Log.d("StorageAdmin", "Access token: $token")
-```
-
-### 6. Missing Reauthentication
-
-The application allows administrators to enable or disable storage nodes without biometric confirmation, device credentials, or a reauthentication prompt.
-
-### 7. Missing Authorization Enforcement
-
-The enable and disable endpoints do not properly validate the authentication token before performing administrative actions.
-
----
-
-## MobSF Findings
-
-Static analysis identified several security concerns, including:
-
-- Cleartext traffic enabled
-- Debug build enabled
-- Debug certificate used
-- Support for an older Android version
-- Application data backup enabled
-- Sensitive information logged
-- Possible hardcoded sensitive information
-- Hardcoded IP address disclosure
-- Exported components
-
-MobSF also reported SSL certificate pinning as a positive finding. However, because the prototype uses cleartext HTTP, this result should be manually verified during dynamic testing.
-
----
-
-## Manual Security Findings
-
-Manual code review and runtime testing confirmed:
-
-- Hardcoded backend credentials
-- Predictable authentication token
-- Missing token validation
-- No biometric or device-credential confirmation
-- Authentication token exposure in Logcat
-- Unencrypted token storage in SharedPreferences
-- Temporary node-state transitions during health-check refreshes
-
----
-
 ## Security Improvements
 
-A secure version should include the following protections:
+Security improvements in a secure version includes the following:
 
-- Replace HTTP with HTTPS
-- Disable cleartext traffic
-- Remove hardcoded credentials
-- Use unique administrator accounts
-- Store password hashes instead of plaintext passwords
-- Add account lockout and rate limiting
-- Issue signed, random, and expiring authentication tokens
-- Validate authorization on every protected endpoint
-- Store sensitive values using Android Keystore-backed encryption
-- Remove sensitive Logcat statements
-- Disable debugging in release builds
-- Sign release APKs with a private release certificate
-- Disable application backup for sensitive data
-- Review and restrict exported components
-- Require biometric or device-credential confirmation for critical actions
-- Validate certificate pinning through dynamic testing
+- Removal of sensitive authentication logging
+- Encrypted storage of authentication tokens
+- Biometric authentication before administrative actions [TO DO]
+- Protection of backend endpoints using authentication
+- Removal of hardcoded administrator credentials
 
 ---
 
@@ -472,7 +362,7 @@ Filter Logcat using:
 StorageAdmin
 ```
 
-The insecure prototype may display:
+The secure prototype will not display:
 
 ```text
 Access token: insecure-admin-token
@@ -481,28 +371,6 @@ Access token: insecure-admin-token
 ---
 
 ## Screenshots and Evidence
-
-The project report includes evidence for:
-
-- Login screen
-- Failed login
-- Successful dashboard login
-- Disabled node
-- Enabled node
-- Token exposure in Logcat
-- SharedPreferences token storage
-- Cleartext HTTP configuration
-- FastAPI login endpoint
-- FastAPI Swagger interface
-- MobSF findings
-
-Store screenshots in a dedicated directory such as:
-
-```text
-screenshots/
-```
-
-Use clear file names, for example:
 
 ```text
 01-login-screen.png
