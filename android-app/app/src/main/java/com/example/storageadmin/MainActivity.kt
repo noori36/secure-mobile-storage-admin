@@ -35,9 +35,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.content.Context
+import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import android.os.Handler
 import android.os.Looper
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 
 class MainActivity : ComponentActivity() {
 
@@ -68,6 +71,27 @@ fun StorageAdminApp() {
             }
         )
     }
+}
+
+private fun getSecurePreferences(context: Context) =
+    EncryptedSharedPreferences.create(
+        context,
+        "secure_admin_preferences",
+        MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build(),
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+
+private fun saveAccessToken(
+    context: Context,
+    token: String
+) {
+    getSecurePreferences(context)
+        .edit()
+        .putString("access_token", token)
+        .apply()
 }
 
 @Composable
@@ -169,17 +193,12 @@ fun LoginScreen(
 
                                     if (token != null) {
 
-                                        // Intentionally insecure storage
+                                        // secure storage
                                         val sharedPreferences =
-                                            context.getSharedPreferences(
-                                                "admin_preferences",
-                                                Context.MODE_PRIVATE
+                                            saveAccessToken(
+                                                context = context,
+                                                token = token
                                             )
-
-                                        sharedPreferences
-                                            .edit()
-                                            .putString("access_token", token)
-                                            .apply()
                                     }
 
                                     message = "Login successful"
