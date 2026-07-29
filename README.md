@@ -498,23 +498,41 @@ The project report includes evidence for:
 
 Store screenshots in a dedicated directory such as:
 
-```text
-screenshots/
-```
+## Screenshots
 
-Use clear file names, for example:
+### Login Screen
 
-```text
-01-login-screen.png
-02-failed-login.png
-03-dashboard.png
-04-disabled-node.png
-05-enabled-node.png
-06-logcat-token.png
-07-cleartext-http.png
-08-fastapi-login.png
-09-swagger-endpoints.png
-```
+![Login Screen](screenshots/01-login-screen.png)
+
+### Failed Login
+
+![Failed Login](screenshots/02-failed-login.png)
+
+### Dashboard
+
+![Dashboard](screenshots/03-dashboard.png)
+
+### Disabled Node
+
+![Disabled Node](screenshots/04-disabled-node.png)
+
+### Enabled Node
+
+![Enabled Node](screenshots/05-enabled-node.png)
+
+### Logcat Token Exposure
+
+![Logcat Token](screenshots/06-logcat-token.png)
+
+### Cleartext HTTP Configuration
+
+![Cleartext HTTP](screenshots/07-cleartext-http.png)
+
+### FastAPI Login Endpoint
+
+![FastAPI Login](screenshots/08-fastapi-login.png)
+
+### FastAPI Swagger Interface
 
 ---
 
