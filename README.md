@@ -481,31 +481,31 @@ Access token: insecure-admin-token
 ### Login Screen
 
 <p align="left">
-  <img src="screenshots/01-login-screen.png" width="400">
+  <img src="screenshots/01-login-screen.png" width="300">
 </p>
 
 ### Failed Login
 
 <p align="left">
-  <img src="screenshots/02-failed-login.png" width="400">
+  <img src="screenshots/02-failed-login.png" width="300">
 </p>
 
 ### Dashboard
 
 <p align="left">
-  <img src="screenshots/03-dashboard.png" width="400">
+  <img src="screenshots/03-dashboard.png" width="300">
 </p>
 
 ### Disabled Node
 
 <p align="left">
-  <img src="screenshots/04-disabled-node.png" width="400">
+  <img src="screenshots/04-disabled-node.png" width="300">
 </p>
 
 ### Enabled Node
 
 <p align="left">
-  <img src="screenshots/05-enabled-node.png" width="400">
+  <img src="screenshots/05-enabled-node.png" width="300">
 </p>
 
 ### Logcat Token Exposure
